@@ -1,0 +1,8 @@
+name: CustomItemGUI
+main: CIG.Main.CustomItemGUI
+version: 1.0.0
+description: CustomItemGUI
+author: Hu Yu Wei
+commands: 
+  CIG:  
+permissions:

@@ -1,0 +1,36 @@
+##################################################
+#                                                #
+#            Welcome to use CustomItemGUI        #
+#                                                #
+##################################################
+
+# This version is CustomItemGUI v1.0.0
+# CustomItemGUI can custom every you need item
+# Finally, I wish you a happy use this Plugin.
+
+##################################################
+#                                                #
+#                      Basic                     #
+#                                                #
+##################################################
+Configuration:
+  Language: en
+  Basic:
+    Value_color: "&a"
+    Lore_Value_Range_Symbol: " &7➨ "
+    Lore_Value_Durability_Symbol: "&7/"
+    Lore_Value_Multiplier_Symbol: "&7x"
+    Lore_Value_Percent_Symbol: "&7%"
+    Format_Value: "&7<stats>&f&l: <value>"
+    Format_Socket: "&7- &7< <slot> >&f"
+  Stats:
+    Identifier_Damage: "攻擊"
+    Identifier_Attack_Speed: "攻擊速度"
+    Identifier_Health: "血量"
+    Identifier_Defanse: "防禦"
+    Identifier_Durability: "耐久度"
+    Identifier_CritChance: "暴擊機率"
+    Identifier_CritDamage: "暴擊傷害"
+    Identifier_PvPDamage: "PVP傷害"
+    Identifier_PvEDamage: "PVE傷害"
+  
