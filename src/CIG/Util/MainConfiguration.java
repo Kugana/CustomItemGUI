@@ -15,15 +15,19 @@ public class MainConfiguration {
 	}
 
 	public final String getStatsIdentifierHealth() {
-
 		return data.color(plugin.getConfig().getString("Configuration.Stats.Identifier_Health"));
-
 	}
 
-	public final String getStatsIdentifierDefanse() {
+	public final String getStatsIdentifierDefense() {
+		return data.color(plugin.getConfig().getString("Configuration.Stats.Identifier_Defense"));
+	}
 
-		return data.color(plugin.getConfig().getString("Configuration.Stats.Identifier_Defanse"));
+	public final String getStatsIdentifierPVPDefense() {
+		return data.color(plugin.getConfig().getString("Configuration.Stats.Identifier_PvPDefense"));
+	}
 
+	public final String getStatsIdentifierPVEDefense() {
+		return data.color(plugin.getConfig().getString("Configuration.Stats.Identifier_PvEDefense"));
 	}
 
 	public String getStatsIdentifierDurability() {
@@ -44,6 +48,10 @@ public class MainConfiguration {
 
 	public String getStatsIdentifierPvPDamage() {
 		return data.color(plugin.getConfig().getString("Configuration.Stats.Identifier_PvPDamage"));
+	}
+
+	public final String getStatsIdentifierDodgeRate() {
+		return data.color(plugin.getConfig().getString("Configuration.Stats.Identifier_DodgeRate"));
 	}
 
 	public final static String getStatsIdentifierValuecolor() {

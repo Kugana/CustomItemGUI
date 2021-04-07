@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import CIG.Main.CustomItemGUI;
+import CIG.Util.CustomDefanseValue;
 import CIG.Util.MainConfiguration;
 import CIG.Util.MainMessage;
 import CIG.Util.SlotType;
@@ -38,25 +39,24 @@ public class PlayerInteract extends data implements Listener {
 			SlotType slotType = SlotType.getSlotType(item);
 			if (slotType.equals(SlotType.ARMOR)) {
 				double durability = 0;
+				CustomDefanseValue cdv = EquipDefense(p);
+				double basichealth = 20.0D;
+				double health = cdv.getHealth();
+				double healthRegen = cdv.getHealthRegen();
 				if (getStatsLores(item, getText("DURABILITY")) != -1) {
-					
-					durability = getLoreValue(item, getText("DURABILITY"),
-							getStatsLores(item, getText("DURABILITY")));
-					if (durability != 0) {
-						
-					}
 
-				}
-				if (getStatsLores(item, getText("DAMAGE")) != -1) {
-					if (durability > 0) {
-
-						double customdefanse = getLoreValue(item, getText("DEFANSE"),
-								getStatsLores(item, getText("DEFANSE")));
-					} else {
+					durability = getLoreValue(item, getText("DURABILITY"), getStatsLores(item, getText("DURABILITY")));
+					if (durability == 0) {
 						e.setCancelled(true);
 						MainMessage.CUSTOMITEMGUI_ITEMBREAK(p);
+						return;
 					}
+
 				}
+				p.sendMessage(""+health);
+				double newmaxhealth = basichealth + health;
+				p.setHealth(p.getHealth() + health);
+				p.setMaxHealth(newmaxhealth);
 
 			} else {
 				return;

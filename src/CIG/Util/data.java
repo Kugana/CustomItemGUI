@@ -144,12 +144,31 @@ public class data {
 				}
 
 			}
-			if (stats.equals(getText("DEFANSE"))) {
+			if (stats.equals(getText("DEFENSE"))) {
 				String loreminvalue = textValue.replaceFirst(valuecolor, "");
 				double value = Double.parseDouble(loreminvalue);
 
 				return value;
 			}
+			if (stats.equals(getText("PVPDEFENSE"))) {
+				String loreminvalue = textValue.replaceFirst(valuecolor, "");
+				double value = Double.parseDouble(loreminvalue);
+
+				return value;
+			}
+			if (stats.equals(getText("PVEDEFENSE"))) {
+				String loreminvalue = textValue.replaceFirst(valuecolor, "");
+				double value = Double.parseDouble(loreminvalue);
+
+				return value;
+			}
+			if (stats.equals(getText("DODGERATE"))) {
+				String loreminvalue = textValue.replaceFirst(valuecolor, "");
+				double value = Double.parseDouble(loreminvalue);
+
+				return value;
+			}
+
 			if (stats.equals(getText("HEALTH"))) {
 
 				String loreminvalue = textValue.replaceFirst(valuecolor, "");
@@ -195,7 +214,7 @@ public class data {
 
 	}
 
-	public String setLoreValue(ItemStack item, String stats, int line, int newvalue) {
+	public static String setLoreValue(ItemStack item, String stats, int line, int newvalue) {
 		if (line == -1) {
 
 			return "";
@@ -224,7 +243,7 @@ public class data {
 
 			}
 		}
-		Bukkit.broadcastMessage("test3");
+
 		return "";
 
 	}
@@ -352,7 +371,7 @@ public class data {
 		return text;
 	}
 
-	public static CustomDefanseValue Equipvalue(ItemStack item) {
+	public static CustomDefanseValue EquipDefense(Player p) {
 
 		double defense = 0.0D;
 		double pvpDefense = 0.0D;
@@ -362,7 +381,100 @@ public class data {
 		double blockAmount = 0.0D;
 		double blockRate = 0.0D;
 		double dodgeRate = 0.0D;
+		double durability = 0.0D;
 
+		ItemStack[] equip = p.getInventory().getArmorContents();
+		for (ItemStack item : equip) {
+			if (item != null) {
+				if (getStatsLores(item, getText("DURABILITY")) != -1) {
+					durability = getLoreValue(item, getText("DURABILITY"), getStatsLores(item, getText("DURABILITY")));
+					if (durability != 0) {
+
+						int newdurablilty = (int) (durability - 1);
+
+						ItemMeta itemMeta = item.getItemMeta();
+
+						String value = setLoreValue(item, getText("DURABILITY"),
+								getStatsLores(item, getText("DURABILITY")), newdurablilty);
+						String newlore = MainConfiguration.getStatsIdentifierValueFormat();
+						HashMap<String, String> map = new HashMap<String, String>();
+						map.put("stats", "DURABILITY");
+						map.put("value", value);
+						List<String> lore = itemMeta.getLore();
+						lore.set(getStatsLores(item, getText("DURABILITY")),
+								color(placeholder(map, newlore, "<", ">")));
+
+						itemMeta.setLore(lore);
+						item.setItemMeta(itemMeta);
+
+						if (getStatsLores(item, getText("DEFENSE")) != -1) {
+
+							defense += getLoreValue(item, getText("DEFENSE"), getStatsLores(item, getText("DEFENSE")));
+						}
+						if (getStatsLores(item, getText("PVPDEFENSE")) != -1) {
+							pvpDefense += getLoreValue(item, getText("PVPDEFENSE"),
+									getStatsLores(item, getText("PVPDEFENSE")));
+						}
+						if (getStatsLores(item, getText("PVEDEFENSE")) != -1) {
+							pveDefense += getLoreValue(item, getText("PVEDEFENSE"),
+									getStatsLores(item, getText("PVEDEFENSE")));
+						}
+						if (getStatsLores(item, getText("HEALTH")) != -1) {
+							health += getLoreValue(item, getText("HEALTH"), getStatsLores(item, getText("HEALTH")));
+						}
+						if (getStatsLores(item, getText("HEALTHREGEN")) != -1) {
+							healthRegen += getLoreValue(item, getText("HEALTHREGEN"),
+									getStatsLores(item, getText("HEALTHREGEN")));
+						}
+						if (getStatsLores(item, getText("BLOCKAMOUNT")) != -1) {
+							blockAmount += getLoreValue(item, getText("BLOCKAMOUNT"),
+									getStatsLores(item, getText("BLOCKAMOUNT")));
+						}
+						if (getStatsLores(item, getText("BLOCKRATE")) != -1) {
+							blockRate += getLoreValue(item, getText("BLOCKRATE"),
+									getStatsLores(item, getText("BLOCKRATE")));
+						}
+						if (getStatsLores(item, getText("DODGETRATE")) != -1) {
+							dodgeRate += getLoreValue(item, getText("DODGETRATE"),
+									getStatsLores(item, getText("DODGETRATE")));
+						}
+					} else {
+						MainMessage.CUSTOMITEMGUI_ITEMBREAK(p);
+					}
+				} else {
+					if (getStatsLores(item, getText("DEFENSE")) != -1) {
+						defense += getLoreValue(item, getText("DEFENSE"), getStatsLores(item, getText("DEFENSE")));
+					}
+					if (getStatsLores(item, getText("PVPDEFENSE")) != -1) {
+						pvpDefense += getLoreValue(item, getText("PVPDEFENSE"),
+								getStatsLores(item, getText("PVPDEFENSE")));
+					}
+					if (getStatsLores(item, getText("PVEDEFENSE")) != -1) {
+						pveDefense += getLoreValue(item, getText("PVEDEFENSE"),
+								getStatsLores(item, getText("PVEDEFENSE")));
+					}
+					if (getStatsLores(item, getText("HEALTH")) != -1) {
+						health += getLoreValue(item, getText("HEALTH"), getStatsLores(item, getText("HEALTH")));
+					}
+					if (getStatsLores(item, getText("HEALTHREGEN")) != -1) {
+						healthRegen += getLoreValue(item, getText("HEALTHREGEN"),
+								getStatsLores(item, getText("HEALTHREGEN")));
+					}
+					if (getStatsLores(item, getText("BLOCKAMOUNT")) != -1) {
+						blockAmount += getLoreValue(item, getText("BLOCKAMOUNT"),
+								getStatsLores(item, getText("BLOCKAMOUNT")));
+					}
+					if (getStatsLores(item, getText("BLOCKRATE")) != -1) {
+						blockRate += getLoreValue(item, getText("BLOCKRATE"),
+								getStatsLores(item, getText("BLOCKRATE")));
+					}
+					if (getStatsLores(item, getText("DODGERATE")) != -1) {
+						dodgeRate += getLoreValue(item, getText("DODGERATE"),
+								getStatsLores(item, getText("DODGERATE")));
+					}
+				}
+			}
+		}
 		return new CustomDefanseValue(defense, pvpDefense, pveDefense, health, healthRegen, blockAmount, blockRate,
 				dodgeRate);
 	}
@@ -471,8 +583,12 @@ public class data {
 			return mainconfig.getStatsIdentifierDamage();
 		case "HEALTH":
 			return mainconfig.getStatsIdentifierHealth();
-		case "DEFANSE":
-			return mainconfig.getStatsIdentifierDefanse();
+		case "DEFENSE":
+			return mainconfig.getStatsIdentifierDefense();
+		case "PVPDEFENSE":
+			return mainconfig.getStatsIdentifierPVPDefense();
+		case "PVEDEFENSE":
+			return mainconfig.getStatsIdentifierPVEDefense();
 		case "DURABILITY":
 			return mainconfig.getStatsIdentifierDurability();
 		case "PVPDAMAGE":
@@ -483,6 +599,8 @@ public class data {
 			return mainconfig.getStatsIdentifierCritChance();
 		case "CRITDAMAGE":
 			return mainconfig.getStatsIdentifierCritDamage();
+		case "DODGERATE":
+			return mainconfig.getStatsIdentifierDodgeRate();
 		}
 		return text;
 

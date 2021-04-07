@@ -231,7 +231,7 @@ public class CIGcommand extends data implements TabExecutor {
 								ItemStack item = getitem().get(args[1]);
 								Damageable meta = (Damageable) item.getItemMeta();
 								meta.setDamage(Integer.valueOf(args[3]));
-
+								
 								item.setItemMeta((ItemMeta) meta);
 								setitem(args[1], item);
 							}

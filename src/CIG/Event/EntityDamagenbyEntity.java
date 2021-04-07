@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import CIG.Main.CustomItemGUI;
 import CIG.Util.CustomDamageValue;
+import CIG.Util.CustomDefanseValue;
 import CIG.Util.MainConfiguration;
 import CIG.Util.MainMessage;
 import CIG.Util.data;
@@ -32,14 +33,6 @@ public class EntityDamagenbyEntity extends data implements Listener {
 
 	double durability;
 
-	@EventHandler
-	public void Onequipevent(EntityDamageByEntityEvent e) {
-		Entity victim = e.getEntity();
-		if (victim instanceof Player) {
-
-		}
-	}
-
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void Onweaponevent(EntityDamageByEntityEvent e) {
@@ -49,6 +42,7 @@ public class EntityDamagenbyEntity extends data implements Listener {
 		if (attacker instanceof Player) {
 			Player p = (Player) attacker;
 			ItemStack hand = p.getItemInHand();
+
 			if (hand != null) {
 				if (hand.getItemMeta() != null) {
 					if (hand.getItemMeta().getDisplayName() != null) {
@@ -82,36 +76,21 @@ public class EntityDamagenbyEntity extends data implements Listener {
 									e.setCancelled(true);
 									MainMessage.CUSTOMITEMGUI_ITEMBREAK(p);
 									return;
-									/*double customdamage = cdv.getDamage();
-									double pvpdamage = cdv.getPvPDamage();
-									double pvedamage = cdv.getPvEDamage();
-									double aoedamage = cdv.getAttackAoEDamage();
-									double critchance = cdv.getCriticalChance();
-									boolean chance = (Math.random() * 100) + 1 <= critchance ? true : false;
-									double bonusPercentDamage = isPlayer(victim) ? pvpdamage : pvedamage;
-									double critdamage = chance
-											? (customdamage + pvpdamage) * (cdv.getCriticalDamage() / 100)
-											: 1.0D;
-									double damage = customdamage + bonusPercentDamage + critdamage;
-									e.setDamage(damage);*/
 								}
-							}// else {
-								double customdamage = cdv.getDamage();
-								double pvpdamage = cdv.getPvPDamage();
-								double pvedamage = cdv.getPvEDamage();
-								double aoedamage = cdv.getAttackAoEDamage();
-								double critchance = cdv.getCriticalChance();
-								double test = (Math.random() * 100) + 1;
-								boolean chance = test <= critchance ? true : false;
-								double bonusPercentDamage = isPlayer(victim) ? pvpdamage : pvedamage;
-								double critdamage = chance
-										? (customdamage + pvpdamage) * (cdv.getCriticalDamage() / 100)
-										: 1.0D;
-								double damage = customdamage + bonusPercentDamage + critdamage;
-								e.setDamage(damage);
-
-							//}
-
+							}
+							double customdamage = cdv.getDamage();
+							double pvpdamage = cdv.getPvPDamage();
+							double pvedamage = cdv.getPvEDamage();
+							double aoedamage = cdv.getAttackAoEDamage();
+							double critchance = cdv.getCriticalChance();
+							double mathrandom = (Math.random() * 100) + 1;
+							boolean chance = mathrandom <= critchance ? true : false;
+							double bonusPercentDamage = isPlayer(victim) ? pvpdamage : pvedamage;
+							double critdamage = chance ? (customdamage + pvpdamage) * (cdv.getCriticalDamage() / 100)
+									: 0.0D;
+							double damage = customdamage + bonusPercentDamage + critdamage;
+							e.setDamage(damage);
+							return;
 						} else {
 							return;
 						}
@@ -121,6 +100,42 @@ public class EntityDamagenbyEntity extends data implements Listener {
 			}
 		}
 
+	}
+
+	@EventHandler
+	public void Onequipevent(EntityDamageByEntityEvent e) {
+		Entity victim = e.getEntity();
+		Entity damager = e.getDamager();
+		if (victim instanceof Player) {
+			Player p = (Player) victim;
+
+			CustomDefanseValue cdv = EquipDefense(p);
+
+			double customdefense = cdv.getDefense();
+			double pvpDefense = cdv.getPvPDefense();
+			double pveDefense = cdv.getPvEDefense();
+			double health = cdv.getHealth();
+			double healthRegen = cdv.getHealthRegen();
+			double blockAmount = cdv.getBlockAmount();
+			double blockRate = cdv.getBlockRate();
+			double dodgeRate = cdv.getDodgeRate();
+			double bonusPercentdefense = isPlayer(damager) ? pvpDefense : pveDefense;
+			double defense = bonusPercentdefense + customdefense;
+			double mathrandom = (Math.random() * 100) + 1;
+			boolean dodge = mathrandom <= dodgeRate ? true : false;
+			double basicdamage = e.getDamage();
+			if (dodgeRate != 0) {
+				if (dodge) {
+					e.setCancelled(true);
+					return;
+				}
+			}
+			double newdamage = basicdamage - defense <= 0 ? 0 : basicdamage - defense;
+			e.setDamage(newdamage);
+			p.sendMessage(basicdamage + "/" + defense + "=" + e.getDamage());
+			return;
+
+		}
 	}
 
 	public CustomItemGUI getPlugin() {
